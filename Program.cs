@@ -16,59 +16,13 @@ namespace Linear_Equation_System
             Console.Write("\nHow many equations do you want to enter: ");
 
             
-            var matrix = LinearEquationMatrix(4);
+            double[,] matrix = LinearEquationMatrix(4);
             DisplayEquation(matrix);
-            var forward = ForwardEliminationMatrix(matrix);
-            DisplayMatrix(forward);
-
-            int M;
-            while (!int.TryParse(Console.ReadLine(), out M))
-            {
-                Console.Write("Please enter a number: ");
-            }
-
-            int[,] A = new int[M, M + 1];
-
-            //for (int row = 0; row < M; row++)
-            //{
-            //    Console.Write($"Eq #{row}: ");
-            //    int numInput;
-            //    for (int col = 0; col < M + 1; col++)
-            //    {
-            //        while (!int.TryParse(Console.ReadLine(), out numInput))
-            //        {
-
-            //        }
-            //        A[row, col] = numInput;
-            //    }
-            //}
-            //Display Matrix
-            
+            double[,] forwardElimination = ForwardEliminationMatrix(matrix);
+            DisplayMatrix(forwardElimination);
            
-            //Display Matrix
-            for (int row = 0; row < M; row++)
-            {
-                for (int col = 0; col < M + 1; col++)
-                {
-                    Console.Write(A[row, col]);
-                }
-                Console.WriteLine();
-            }
-            //Backwords substitution
-            int N = M;
-            double[] V = new double[N - 1];
-            for (int i = N - 1; i >= 0; i--)
-            {
-                V[i] = A[i, N - 1];
-                for (int j = i + 1; j < N - 1; j++)
-                {
-                    V[i] -= A[i, j] * V[j];
-                }
-                V[i] /= A[i, i];
-            }
-
-
-
+            DisplayResult(BackwardsSubstitution(forwardElimination));
+            
             
         }
 
@@ -77,13 +31,18 @@ namespace Linear_Equation_System
             int nRow = matrix.GetLength(0);
             int nCol = matrix.GetLength(1);
             double[] result = new double[nRow];
+            //handle row from bottom to top
             for (int i = nRow-1; i >= 0; i--)
             {
-                for (int i = 0; i < length; i++)
+                result[i] = matrix[i, nCol - 1];
+                for (int j = i+1; j <=nRow-1; j++)
                 {
-
+                    result[i] -= matrix[i, j] * result[j];
                 }
+                result[i] = result[i] / matrix[i, i];
+
             }
+            return result;
         }
         static public double[,] ForwardEliminationMatrix(double[,] matrix)
         {
@@ -141,6 +100,15 @@ namespace Linear_Equation_System
                 Console.WriteLine();
             }
         }
+        static public void DisplayResult(double[] resultArray)
+        {
+            Console.WriteLine("\nResult: ");
+            int numX = resultArray.Length;
+            for (int i = 0; i < numX; i++)
+            {
+                Console.WriteLine("X{0}: {1}",i+1,resultArray[i]);
+            }
+        }
 
         static public void DisplayEquation(double[,] matrix)
         {
@@ -163,7 +131,7 @@ namespace Linear_Equation_System
                         Console.Write("- {0}*{1}{2} ", Math.Abs(matrix[i, j]), "X", j + 1);
                     }
 
-                    if (matrix[i,j] > 0 && j == 0)
+                    if (j == 0)
                     {
                         Console.Write("{0}*{1}{2} ", matrix[i, j], "X", j + 1);
                     }
