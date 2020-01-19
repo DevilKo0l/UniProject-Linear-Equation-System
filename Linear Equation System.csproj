@@ -43,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GaussianElimination.cs" />
-    <Compile Include="EquationSystem.cs" />
+    <Compile Include="Calculator.cs" />
+    <Compile Include="SystemOfEquation.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

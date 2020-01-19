@@ -1,22 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Linear_Equation_System
-{   
-    class Program
+{
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            Console.WriteLine("Type linear equations in augmented matrix notation: a1 a2... aN d");
+            Console.WriteLine("       Where a1..N are coefficients and d is constant");
+            bool cont = true;
+            int numEq;
+            while (cont)
+            {
+                Console.Write("\nEnter number of equation: ");
+                numEq = int.Parse(Console.ReadLine());
+                SystemOfEquation newEq = new SystemOfEquation(numEq, numEq + 1);
+                newEq.SetLinearEquationMatrix();
+                newEq.DisplayEquation();
+                newEq.DisplayRoot();
+                Console.Write("\nDo you want to continue(y/n): ");
+                if (askForContinue(Console.ReadLine()))
+                {
+                    Console.Clear();
+                    continue;
+                }
+                else
+                {
+                    cont = false;
+                }
+            }
+        }
 
-            double[,] matrix = new double[3, 4] { { 1, 2, 3, 5 }, { 1, 5, 8, 9 }, { 8, 9, 6, 1 } };
-            EquationSystem equation = new EquationSystem(2, 3, new GaussianElimination());
-            equation.SetLinearEquationMatrix();
-            equation.DisplayEquation();
-            equation.DisplayResult();
+        static public bool askForContinue(string input)
+        {
+            if (input[0].ToString().ToLower() == "y")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
-

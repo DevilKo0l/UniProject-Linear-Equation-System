@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Linear_Equation_System
 {
     public class Matrix
     {
-        public int nRow;
-        public int nCol;
+        public int nRow, nCol;
         public double[,] matrix;
+
         public Matrix(int newRow, int newCol)
         {
             nRow = newRow;
@@ -19,8 +15,7 @@ namespace Linear_Equation_System
         }
 
         public double[,] SetLinearEquationMatrix()
-        {           
-            
+        {
             for (int i = 0; i < nRow; i++)
             {
                 Console.WriteLine("\nEnter coefficient for Eq #{0}: ", i + 1);
@@ -36,15 +31,15 @@ namespace Linear_Equation_System
                 }
             }
             return matrix;
-
         }
-        public void GetMatrix()
+
+        public void DisplayMatrix()
         {
             for (int i = 0; i < nRow; i++)
             {
                 for (int j = 0; j < nCol; j++)
                 {
-                    Console.Write("{0}  ",matrix[i,j]);
+                    Console.Write("{0}  ", matrix[i, j]);
                 }
                 Console.WriteLine();
             }

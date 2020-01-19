@@ -1,27 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Linear_Equation_System
 {
-    class EquationSystem: Matrix
+    internal class SystemOfEquation : Matrix
     {
-        private readonly GaussianElimination _gausian;        
-        
-        public EquationSystem(int newNumberOfEquation, int newNumberOfUnknown, GaussianElimination gaussian)
-            :base(newNumberOfEquation, newNumberOfUnknown)
+        private readonly Calculator _calculate;
+
+        public SystemOfEquation(int newNumberOfEquation, int newNumberOfUnknown)
+            : base(newNumberOfEquation, newNumberOfUnknown)
         {
-            _gausian = gaussian;
-           
+            _calculate = new Calculator(matrix);
+        }
+
+        public double[] GetRoot()
+        {
+            _calculate.ForwardEliminationMatrix();
+            _calculate.Pivoting();
+            return _calculate.BackwardsSubstitution();
         }
 
         public void DisplayEquation()
         {
-            Console.Clear();            
+            Console.Clear();
             string[] variableArray = Enumerable.Repeat("X", nCol).ToArray();
-            Console.WriteLine("\nYou have entered the following equation:");
+            Console.WriteLine("You have entered the following equation:");
             for (int i = 0; i < nRow; i++)
             {
                 Console.Write("Eq #{0}: ", i + 1);
@@ -50,17 +53,15 @@ namespace Linear_Equation_System
             }
         }
 
-        public void DisplayResult()
+        public void DisplayRoot()
         {
-            var result = _gausian.BackwardsSubstitution(matrix);
+            var result = GetRoot();
             Console.WriteLine("\nResult: ");
-            int numX = result.Length;
+            int numX = GetRoot().Length;
             for (int i = 0; i < numX; i++)
             {
                 Console.WriteLine("X{0}: {1}", i + 1, result[i]);
             }
         }
-
-
     }
 }
